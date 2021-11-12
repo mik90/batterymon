@@ -21,9 +21,17 @@ import Text.Printf
 
 main :: IO ()
 main = do
-  [vendorIdStr, productIdStr] <- getArgs
-  let vendorId = read vendorIdStr
-      productId = read productIdStr
+  -- How to get the [String] from getArgs's IO [String]?
+  args <- getArgs
+  if length args == 2
+    then useCommandArgs args
+    else putStrLn "Usage:\n cabal run batterymon -- <vendorId> <productId>"
+
+useCommandArgs :: [String] -> IO ()
+useCommandArgs args = do
+  -- Grab the first and second items from the list
+  let vendorId = read (head args)
+      productId = read (args !! 1)
 
   -- Initialization:
   ctx <- newCtx
@@ -59,7 +67,7 @@ waitForMyDevice ctx vendorId productId = do
   (dev, _event) <- takeMVar mv
   return dev
 
--- Enumeratie all devices and find the right one.
+-- Enumerate all devices and find the right one.
 findMyDevice :: Ctx -> VendorId -> ProductId -> IO Device
 findMyDevice ctx vendorId productId = do
   devs <- V.toList <$> getDevices ctx
@@ -137,4 +145,4 @@ deviceInfo dev =
   ]
 
 printBytes :: B.ByteString -> IO ()
-printBytes = putStrLn . intercalate " " . map (printf "0x%02x") . B.unpack
+printBytes = putStrLn . unwords . map (printf "0x%02x") . B.unpack

@@ -12,3 +12,13 @@ Product ID: 0x12ad
 
 Pass in args with `cabal run batterymon -- 4152 0x12ad`
 
+## Systme requirements
+
+Requires C libusb as noted in <https://hackage.haskell.org/package/bindings-libusb>
+Requires libgmp devel libs
+
+On Fedora, it'll be
+
+```bash
+sudo dnf install libusb-devel gmp-devel
+```
