@@ -20,7 +20,6 @@ maintainer:         kaliman.mike@gmail.com
 -- copyright:
 -- category:
 extra-source-files:
-    CHANGELOG.md
     README.md
 
 executable batterymon
@@ -31,6 +30,9 @@ executable batterymon
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
-    build-depends:    base ^>=4.14.1.0
     hs-source-dirs:   app
     default-language: Haskell2010
+    build-depends: base       >= 4     && < 4.15
+                 , usb        >= 1.3   && < 1.4
+                 , bytestring >= 0.9   && < 0.12
+                 , vector     >= 0.5   && < 0.13
